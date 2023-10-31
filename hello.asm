@@ -1,7 +1,20 @@
 [org 0x7c00] ; MBR start address
-mov ah, 0x0E ; BIOS command to move our cursor forward
-mov al, 'X'  ; Store the character to print in the al register
-int 0x10     ; BIOS interrupt - equivalent to print function
-jmp $
-times 510-($-$$) db 0 ; byte padding
-dw 0xAA55             ; magic MBR number
+
+mov si, hello_string ; Point SI to the start of the string
+
+print_loop:
+    lodsb                  ; Load byte at DS:SI into AL and increment SI
+    test al, al            ; Test if AL is zero (end of string)
+    jz done                ; Jump to 'done' if zero
+    mov ah, 0x0E           ; BIOS command to print character in AL
+    int 0x10               ; BIOS interrupt
+    jmp print_loop         ; Repeat for next character
+
+done:
+    jmp $                  ; Jump to current address (infinite loop)
+
+hello_string db 'Hello, World!',0
+
+times 510-($-$$) db 0  ; Pad with zeros up to 510 bytes
+dw 0xAA55              ; Boot signature
+
