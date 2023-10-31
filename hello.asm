@@ -11,17 +11,11 @@ print_loop:
     jmp print_loop         ; Repeat for next character
 
 done:
-    ; enter protected mode
-
-    ; ChatGPT says: Disabling interrupts prevents the CPU from being interrupted
-    ; by hardware or software interrupts during the critical process of 
-    ; switching to Protected Mode. This ensures that the transition occurs
-    ; smoothly without any unexpected behavior.
-    cli ; Clear Interrupt Flag, disables interrupts
+    jmp $ ; infinite loop
 
 
 
-hello_string db 'Booting smt OS...', 0
+hello_string db 'Welcome to smt OS...', 0
 times 510-($-$$) db 0  ; Pad with zeros up to 510 bytes
 dw 0xAA55              ; Boot signature
 
