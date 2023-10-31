@@ -14,7 +14,6 @@ done:
     jmp $ ; infinite loop
 
 
-
 hello_string db 'Welcome to smt OS...', 0
 times 510-($-$$) db 0  ; Pad with zeros up to 510 bytes
 dw 0xAA55              ; Boot signature
