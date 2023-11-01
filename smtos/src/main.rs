@@ -6,7 +6,7 @@ use core::panic::PanicInfo;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    let string = "Welcome to smt OS...\0";
+    let string = b"sup, from my OS! i can make this string any length\0";
 
     unsafe {
         asm!(

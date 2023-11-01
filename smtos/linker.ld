@@ -2,16 +2,61 @@
 OUTPUT_FORMAT(binary)
 ENTRY(_start)
 
+/*
 SECTIONS
 {
-    . = 0x7c00;
-    .boot :
-    {
-        KEEP(*(.text))
-        KEEP(*(.rodata))
-        KEEP(*(.data))
-        KEEP(*(.bss))
-        . = 0x1FE;
+    . = 0x7C00;
+
+    .text : {
+        *(.boot)
+        *(.text)
+    }
+
+    .rodata : {
+        *(.rodata)
+    }
+
+    .data : {
+        *(.data)
+    }
+
+    .bss : {
+        *(.bss)
+    }
+
+    .sig : {
+        . = 0x1B7;
         SHORT(0xAA55)
+    }
+}
+*/
+
+SECTIONS
+{
+    . = 0x7C00;
+
+    .boot : AT(0x7C00) {
+        *(.boot)
+    }
+
+    .text : {
+        *(.text)
+    }
+
+    .rodata : {
+        *(.rodata)
+    }
+
+    .data : {
+        *(.data)
+    }
+
+    .bss : {
+        *(.bss)
+    }
+
+    . = 0x7DFE; /* Sets the location counter to 0x1FE bytes into the 0x7C00 offset */
+    .sig : AT(0x7DFE) {
+        SHORT(0xAA55); /* Magic number */
     }
 }
