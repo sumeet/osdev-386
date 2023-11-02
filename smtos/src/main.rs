@@ -3,37 +3,34 @@
 
 use core::arch::asm;
 use core::panic::PanicInfo;
-use core::ptr;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    for _ in 0..2 {
-        print_cstr(b"yoooo we can call function 1\r\n\0");
-        print_cstr(b"yoooo we can call function 2\r\n\0");
-        print_cstr(b"yoooo we can call function 3\r\n\0");
-        print_cstr(b"yoooo we can call function 4\r\n\0");
+    for i in 0..10 {
+        println("yoooo we can call function 4");
     }
 
     loop {}
 }
 
-fn print_cstr(s: &[u8]) {
-    unsafe {
-        asm!(
-            "mov si, {0:x}",
-            "3:",
-            "lodsb",
-            "test al, al",
-            "jz 4f",
-            "mov ah, 0x0E",
-            "int 0x10",
-            "jmp 3b",
-            "4:",
-            in(reg) s.as_ptr() as u16,
-            // clobbers
-            out("al") _,
-            out("ah") _,
-        );
+fn println(s: &str) {
+    print_str(s);
+    print_str("\r\n");
+}
+
+fn print_str(s: &str) {
+    print_bytes(s.as_bytes());
+}
+
+fn print_bytes(bs: &[u8]) {
+    for i in 0..bs.len() {
+        unsafe {
+            asm!(
+                "int 0x10",
+                in("al") bs[i],
+                in("ah") 0x0Eu8,
+            );
+        }
     }
 }
 
@@ -45,7 +42,6 @@ fn panic(_info: &PanicInfo) -> ! {
 //////////////////////////////////////////////////////////////
 // Things that have been suggested that will probably be needed later
 //////////////////////////////////////////////////////////////
-
 
 // set up the stack (TODO: not doing this yet, see end of file)
 // unsafe {
@@ -68,8 +64,6 @@ fn panic(_info: &PanicInfo) -> ! {
 // // );
 // // asm!("mov sp, 0xFFF0");
 // }
-
-
 
 //////////////////////////////////////////////////////////////
 // writing text directly to vga_buffer, should be faster than
