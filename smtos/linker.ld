@@ -2,35 +2,6 @@
 OUTPUT_FORMAT(binary)
 ENTRY(_start)
 
-/*
-SECTIONS
-{
-    . = 0x7C00;
-
-    .text : {
-        *(.boot)
-        *(.text)
-    }
-
-    .rodata : {
-        *(.rodata)
-    }
-
-    .data : {
-        *(.data)
-    }
-
-    .bss : {
-        *(.bss)
-    }
-
-    .sig : {
-        . = 0x1B7;
-        SHORT(0xAA55)
-    }
-}
-*/
-
 SECTIONS
 {
     . = 0x7C00;
