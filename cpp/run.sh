@@ -2,7 +2,7 @@
 set -ex
 rm -f boot.bin boot.o
 
-i686-elf-gcc -nostdlib -nostartfiles -Wall -Wextra -pedantic -std=gnu99 -ffreestanding -fno-asynchronous-unwind-tables -fomit-frame-pointer -fno-pic -Os -m16 -xc -mpreferred-stack-boundary=2 -o boot.o boot.c
+i686-elf-gcc -masm=intel -nostdlib -nostartfiles -Wall -Wextra -pedantic -std=gnu99 -ffreestanding -fno-asynchronous-unwind-tables -fomit-frame-pointer -fno-pic -Os -m16 -xc -mpreferred-stack-boundary=2 -o boot.o boot.c
 
 i686-elf-gcc -m16 -nostdlib -Wl,--build-id=none -Wl,-Tlinker.ld -o boot.bin boot.o
 

@@ -1,10 +1,8 @@
-__asm__ (".code16gcc\n\t");
-__asm__ ("jmp _start\n\t");
+__asm__(".code16gcc");
+__asm__("jmp _start");
 
 void write_char(unsigned char c) {
-     __asm__ ("int $0x10\n\t"
-            :
-            : "a"((0x0e << 8) | c));
+  __asm__("int 0x10" : : "a"((0x0e << 8) | c));
 }
 
 
